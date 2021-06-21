@@ -1,19 +1,38 @@
 <idea-plugin>
     <id>com.github.fiadleh.codesmellsplugin</id>
-    <name>code-smells-plugin</name>
+    <name>Live Code Smells Detector</name>
     <vendor>fiadleh</vendor>
 
-    <!-- Product and plugin compatibility requirements -->
-    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <!-- Product and plugin compatibility requirements
+     https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.fiadleh.codesmellsplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.fiadleh.codesmellsplugin.services.MyProjectService"/>
+
+        <localInspection language="JAVA"
+                         groupPath="Java"
+                         groupBundle="messages.InspectionsBundle"
+                         enabledByDefault="true"
+                         groupName="Code Smells"
+                         displayName="Data Clumps"
+                         level="WARNING"
+                         implementationClass="com.github.fiadleh.codesmellsplugin.codesmells.dataclumps.DataclumpsInspection"/>
+
+        <localInspection language="JAVA"
+                         groupPath="Java"
+                         groupBundle="messages.InspectionsBundle"
+                         groupName="Code Smells"
+                         displayName="Global Data"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="com.github.fiadleh.codesmellsplugin.codesmells.globaldata.GlobalDataInspection"/>
+
+
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.fiadleh.codesmellsplugin.listeners.MyProjectManagerListener"
+        <listener class="com.github.fiadleh.codesmellsplugin.listeners.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>

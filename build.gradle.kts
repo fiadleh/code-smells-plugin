@@ -18,6 +18,8 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.16.0"
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+
+    id( "org.sonarqube") version "3.3"
 }
 
 group = properties("pluginGroup")
@@ -29,8 +31,19 @@ repositories {
     jcenter()
 }
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+
+    testImplementation ("org.junit.jupiter:junit-jupiter-api")
+    testCompile ("org.junit.jupiter:junit-jupiter:5.7.0")
+    testRuntime ("org.junit.jupiter:junit-jupiter:5.7.0")
+
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
+
 
 // Configure gradle-intellij-plugin plugin.
 // Read more: https://github.com/JetBrains/gradle-intellij-plugin
@@ -77,6 +90,12 @@ tasks {
 
     withType<Detekt> {
         jvmTarget = "1.8"
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
+
+        systemProperty("idea.home.path", "/Users/jhake/Documents/source/comm")
     }
 
     patchPluginXml {

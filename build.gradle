@@ -1,0 +1,42 @@
+// Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
+
+plugins {
+  id 'java'
+  id 'org.jetbrains.intellij' version '1.0'
+  id 'org.sonarqube' version '3.3'
+}
+
+group 'com.github.fiadleh.codesmellsplugin'
+version '0.9.2'
+
+sourceCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+}
+
+test {
+  // Set idea.home.path to the absolute path to the intellij-community source
+  // on your local machine.
+  systemProperty "idea.home.path", "d:/TEMP"
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+  version = '2020.2.4'
+  plugins = ['com.intellij.java']
+}
+
+buildSearchableOptions {
+  enabled = false
+}
+
+patchPluginXml {
+  version = project.version
+  sinceBuild = '202'
+  untilBuild = '225.*'
+}
